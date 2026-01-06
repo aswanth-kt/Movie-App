@@ -16,5 +16,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
         
+    },
+    role: {
+        type: String,
+        default: "user"
     }
 })
+
+export default mongoose.model("User", userSchema);
