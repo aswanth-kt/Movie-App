@@ -2,6 +2,7 @@ import bcrypt from "bcrypt"
 
 import User from "../../models/userSchema.js"
 import generateJWT from "../../config/generateJWT.js";
+import { json } from "express";
 
 export const register = async (req, res) => {
     try {
@@ -44,12 +45,14 @@ export const register = async (req, res) => {
             res.status(404);
             throw new Error("Faild to create the user!")
         }
-        console.log(newUser)
 
     } catch (error) {
         console.log("Error at register:", error);
+        res.status(500).send("Server error");
     }
 };
+
+
 
 export const login = async (req, res) => {
     try {
@@ -57,10 +60,37 @@ export const login = async (req, res) => {
         if (!email, !password) {
             res.status(400).json({
                 message: "Please fill all the fields!"
+            });
+        };
+
+        const user = await User.findOne({ email });
+
+        // Check if user exists
+        if (!user) {
+            res.status(400).json({
+                message: "Invalid credencials"
             })
+        }
+
+        // compare passwords
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            res.status(400).json({
+                message: "Invalid credencials"
+            })
+        } else {
+            res.status(200).json({
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                password: user.password,
+                role: user.role,
+                token: generateJWT(user._id, user.role)
+            })        
         }
         
     } catch (error) {
-        console.error("Error at login:", error)
+        console.error("Error at login:", error);
+        res.status(500).send("Server error");
     }
 }
