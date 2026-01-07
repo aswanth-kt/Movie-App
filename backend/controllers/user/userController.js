@@ -2,13 +2,12 @@ import bcrypt from "bcrypt"
 
 import User from "../../models/userSchema.js"
 import generateJWT from "../../config/generateJWT.js";
-import { json } from "express";
 
 export const register = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
         if (!name, !email, !password, !role) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: "Please fill all the fields!" 
             })
         }
@@ -19,21 +18,20 @@ export const register = async (req, res) => {
         // Check user is already exist
         const existsUser = await User.findOne({ email });
         if (existsUser) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: `You already have an account, ${existsUser.name}`
             });
-            throw new Error("User already exists!")
         }
 
         const newUser = await User.create({
             name,
             email,
             password: hashedPassword,
-            role: "user"
+            role,
         })
 
-        if (newUser) {            
-            res.status(201).json({
+        if (newUser) {           
+            return res.status(201).json({
                 id: newUser._id,
                 name: newUser.name,
                 email: newUser.email,
@@ -42,13 +40,13 @@ export const register = async (req, res) => {
                 token: generateJWT(newUser._id, newUser.role)
             })
         } else {
-            res.status(404);
+            res.status(404).send("Internal server error");
             throw new Error("Faild to create the user!")
         }
 
     } catch (error) {
-        console.log("Error at register:", error);
-        res.status(500).send("Server error");
+        console.log("Error in register:", error);
+        return res.status(500).send("Server error");
     }
 };
 
@@ -58,7 +56,7 @@ export const login = async (req, res) => {
     try {
         const {email, password} = req.body;
         if (!email, !password) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: "Please fill all the fields!"
             });
         };
@@ -67,7 +65,7 @@ export const login = async (req, res) => {
 
         // Check if user exists
         if (!user) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: "Invalid credencials"
             })
         }
@@ -75,11 +73,11 @@ export const login = async (req, res) => {
         // compare passwords
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: "Invalid credencials"
             })
         } else {
-            res.status(200).json({
+            return res.status(200).json({
                 id: user._id,
                 name: user.name,
                 email: user.email,
@@ -90,7 +88,7 @@ export const login = async (req, res) => {
         }
         
     } catch (error) {
-        console.error("Error at login:", error);
-        res.status(500).send("Server error");
+        console.error("Error in login:", error);
+        return res.status(500).send("Server error");
     }
 }
