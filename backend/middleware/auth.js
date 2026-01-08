@@ -4,12 +4,9 @@ import "dotenv/config";
 
 const authenticateToken = (req, res, next) => {
     try {
-        console.log(req.headers)
         const authHeader = req.headers["authorization"];
         const token = authHeader && authHeader.split(" ")[1];
-        // const token = authHeader.replace('Bearer ', '');
-        console.log("authHeader:", authHeader)
-        console.log("token:", token)
+
         if (!token) {
             return res.status(401).json({
                 message: "No token, authorization denied!"
@@ -17,18 +14,12 @@ const authenticateToken = (req, res, next) => {
         }
 
         // token verifying using the secret key
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-            if (err) {
-                return res.status(403).json({
-                    message: "Invalid or expired token."
-                })
-            }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-            req.user = decoded;
-            console.log("decoded:", decoded)
+        req.user = decoded;
+        // console.log("decoded:", decoded)
 
-            next();
-        })
+        next();
 
     } catch (error) {
         console.log("Error in authenticate token:", error);

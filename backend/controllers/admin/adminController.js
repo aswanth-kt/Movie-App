@@ -6,7 +6,6 @@ import Movie from "../../models/movieSchema.js";
 export const fetchAllMovies = async (req, res) => {
     try {
         const moviesCount = await Movie.estimatedDocumentCount();
-        console.log(moviesCount)
         if (moviesCount >= 0) {
             return res.status(400).json({
                 message: `${moviesCount} movies are already fetched.`
@@ -25,7 +24,7 @@ export const fetchAllMovies = async (req, res) => {
 
         const responce = await axios.request(options);
         const moviesResult = responce.data
-        console.log("Movies result:", moviesResult)
+        // console.log("Movies result:", moviesResult)
         
         if (!moviesResult) {
             return res.status(404).json({
@@ -55,3 +54,49 @@ export const fetchAllMovies = async (req, res) => {
 };
 
 
+export const editMovies = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (!id) {
+            return res.status(400).json({
+                message: "Invalid movie ID!"
+            })
+        };
+
+        const allowedFields = [
+            "title",
+            "description",
+            "releaseDate",
+            "imageUrl"
+        ];
+
+        let updates = {};
+        for (let field of allowedFields) {
+            if (req.body[field] !== undefined) {
+                updates[field] = req.body[field]
+            }
+        }
+
+        // Check the updates fields is empty.
+        if (Object.keys(updates).length === 0) {
+            return res.status(400).json({
+                message: "No valid fields to update."
+            })
+        }
+
+        const movie = await Movie.findByIdAndUpdate(
+            id,
+            { $set: updates },
+            { new: true }
+        )
+
+        res.status(200).json({
+            message: "Update successfull",
+            movie
+        })
+        
+    } catch (error) {
+        console.error("Error edit movies:", error);
+        return res.status(500).send("Internal server error");
+    }
+}
