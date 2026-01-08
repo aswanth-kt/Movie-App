@@ -13,7 +13,7 @@ export const fetchAllMovies = async (req, res) => {
             })
         };
         // console.log("moviesCount:", moviesCount);
-        
+
         const options = {
             method: 'GET',
             url: 'https://api.themoviedb.org/3/trending/movie/day?language=en-US',
@@ -52,4 +52,6 @@ export const fetchAllMovies = async (req, res) => {
         console.error("Error in fetching all movies:", error);
         return res.status(500).send("Internal server error");
     }
-}
+};
+
+

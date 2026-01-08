@@ -4,9 +4,12 @@ import "dotenv/config";
 
 const authenticateToken = (req, res, next) => {
     try {
+        console.log(req.headers)
         const authHeader = req.headers["authorization"];
         const token = authHeader && authHeader.split(" ")[1];
-
+        // const token = authHeader.replace('Bearer ', '');
+        console.log("authHeader:", authHeader)
+        console.log("token:", token)
         if (!token) {
             return res.status(401).json({
                 message: "No token, authorization denied!"
