@@ -95,6 +95,26 @@ export const login = async (req, res) => {
 };
 
 
+export const displayMovies = async (req, res) => {
+    try {
+        const movieCount = await Movie.estimatedDocumentCount();
+        if (movieCount <= 0) {
+            return res.status(400).json({
+                message: "DB is empty!"
+            })
+        }
+        const movies = await Movie.find();
+        return res.status(200).json({
+            message: "Movies displayed",
+            movies
+        })
+        
+    } catch (error) {
+        console.error("Error in display movies:", error);
+        return res.status(500).send("Internal server error");
+    }
+}
+
 
 export const filter = async (req, res) => {
     try {
@@ -135,4 +155,6 @@ export const filter = async (req, res) => {
         console.error("Error in filter:", error);
         return res.status(500).send("Internal server error");
     }
-}
+};
+
+
