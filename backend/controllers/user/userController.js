@@ -95,3 +95,44 @@ export const login = async (req, res) => {
 };
 
 
+
+export const filter = async (req, res) => {
+    try {
+        const {search, sortBy} = req.query;
+        // if(!search || !sortBy) {
+        //     return res.status(400).json({
+        //         message: "Query is empty!"
+        //     });
+        // }
+
+        // Search query
+        let query = {};
+        if (search) {
+            query.$or = [
+                { title: { $regex: search, $options: "i" } },
+                { description: { $regex: search, $options: "i" } }
+            ]
+        };
+        console.log("query:", query)
+
+        // Sort logic
+        let sortOptions = {};
+        if (sortBy === "rating") sortOptions.rating = -1;   // desenting order
+        if (sortBy === "title") sortOptions.title = 1;  // A to Z
+        if (sortBy === "releaseDate") sortOptions.releaseDate = -1;
+        console.log("sortOptions:", sortOptions)
+
+        const filteredMovies = await Movie.find(query).sort(sortOptions);
+
+        if (filteredMovies) {
+            return res.status(200).json({
+                message: "Filter success",
+                filteredMovies
+            })
+        }
+        
+    } catch (error) {
+        console.error("Error in filter:", error);
+        return res.status(500).send("Internal server error");
+    }
+}
