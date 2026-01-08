@@ -1,6 +1,7 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 import User from "../../models/userSchema.js"
+import Movie from "../../models/movieSchema.js";
 import generateJWT from "../../config/generateJWT.js";
 
 export const register = async (req, res) => {
@@ -89,6 +90,8 @@ export const login = async (req, res) => {
         
     } catch (error) {
         console.error("Error in login:", error);
-        return res.status(500).send("Server error");
+        return res.status(500).send("Internal server error");
     }
-}
+};
+
+

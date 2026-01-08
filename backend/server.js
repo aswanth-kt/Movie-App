@@ -1,7 +1,8 @@
 import express from "express";
 import "dotenv/config";
 import connectDB from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js"
+import userRoutes from "./routes/userRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRoutes);
+app.use("/admin", adminRoutes)
 
 
 app.listen(port, (err) => {

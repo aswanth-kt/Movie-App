@@ -7,7 +7,10 @@ import isAdmin from "../middleware/adminMiddleware.js.js";
 import { register, login } from "../controllers/user/userController.js";
 
 router.post("/register", register);
+
 router.post("/login", login);
+
+// router.get("/movies", fetchAllMovies)
 
 
 export default router;
