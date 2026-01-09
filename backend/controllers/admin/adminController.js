@@ -3,12 +3,12 @@ import axios from "axios";
 
 import Movie from "../../models/movieSchema.js";
 
-export const fetchAllMovies = async (req, res) => {
+export const fetchAllMoviesAndSaveToDB = async (req, res) => {
     try {
         const moviesCount = await Movie.estimatedDocumentCount();
-        if (moviesCount >= 0) {
+        if (moviesCount > 0) {
             return res.status(400).json({
-                message: `${moviesCount} movies are already fetched.`
+                message: `${moviesCount} movies are already in DB.`
             })
         };
         // console.log("moviesCount:", moviesCount);
@@ -97,6 +97,30 @@ export const editMovies = async (req, res) => {
         
     } catch (error) {
         console.error("Error edit movies:", error);
+        return res.status(500).send("Internal server error");
+    }
+};
+
+
+export const deleteMovie = async (req, res) => {
+    try {
+        const {id} = req.params;
+        if (!id) {
+            return res.status(400).json({
+                message: "Invalid movie ID!"
+            })
+        }
+
+        const deletedMovie = await Movie.findByIdAndDelete(id);
+        if (deletedMovie) {
+            return res.status(200).json({
+                message: `${deletedMovie.title} deleted.`,
+                deletedMovie
+            })
+        }
+        
+    } catch (error) {
+        console.error("Error delete movies:", error);
         return res.status(500).send("Internal server error");
     }
 }
