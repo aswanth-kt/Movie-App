@@ -119,11 +119,6 @@ export const displayMovies = async (req, res) => {
 export const filter = async (req, res) => {
     try {
         const {search, sortBy} = req.query;
-        // if(!search || !sortBy) {
-        //     return res.status(400).json({
-        //         message: "Query is empty!"
-        //     });
-        // }
 
         // Search query
         let query = {};
@@ -142,12 +137,12 @@ export const filter = async (req, res) => {
         if (sortBy === "releaseDate") sortOptions.releaseDate = -1;
         console.log("sortOptions:", sortOptions)
 
-        const filteredMovies = await Movie.find(query).sort(sortOptions);
+        const movies = await Movie.find(query).sort(sortOptions);
 
-        if (filteredMovies) {
+        if (movies) {
             return res.status(200).json({
                 message: "Filter success",
-                filteredMovies
+                movies
             })
         }
         
