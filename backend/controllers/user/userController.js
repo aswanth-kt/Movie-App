@@ -9,6 +9,7 @@ export const register = async (req, res) => {
         const { name, email, password, role } = req.body;
         if (!name, !email, !password, !role) {
             return res.status(400).json({
+                success: false,
                 message: "Please fill all the fields!" 
             })
         }
@@ -20,6 +21,7 @@ export const register = async (req, res) => {
         const existsUser = await User.findOne({ email });
         if (existsUser) {
             return res.status(400).json({
+                success: false,
                 message: `You already have an account, ${existsUser.name}`
             });
         }
@@ -31,23 +33,29 @@ export const register = async (req, res) => {
             role,
         })
 
-        if (newUser) {           
-            return res.status(201).json({
-                id: newUser._id,
-                name: newUser.name,
-                email: newUser.email,
-                password: newUser.password,
-                role: newUser.role,
-                token: generateJWT(newUser._id, newUser.role)
-            })
-        } else {
-            res.status(404).send("Internal server error");
-            throw new Error("Faild to create the user!")
+        if (!newUser) {    
+            return res.status(404).json({
+                success: false,
+                message: "Faild to create the user!"
+            });       
         }
 
+        return res.status(201).json({
+            success: true,
+            id: newUser._id,
+            name: newUser.name,
+            email: newUser.email,
+            password: newUser.password,
+            role: newUser.role,
+            token: generateJWT(newUser._id, newUser.role)
+        })
+
     } catch (error) {
-        console.log("Error in register:", error);
-        return res.status(500).send("Server error");
+        console.log("Error in register:", error.message);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        })
     }
 };
 
@@ -58,6 +66,7 @@ export const login = async (req, res) => {
         const {email, password} = req.body;
         if (!email, !password) {
             return res.status(400).json({
+                success: false,
                 message: "Please fill all the fields!"
             });
         };
@@ -67,6 +76,7 @@ export const login = async (req, res) => {
         // Check if user exists
         if (!user) {
             return res.status(400).json({
+                success: false,
                 message: "Invalid credencials"
             })
         }
@@ -75,22 +85,28 @@ export const login = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({
+                success: false,
                 message: "Invalid credencials"
             })
-        } else {
-            return res.status(200).json({
-                id: user._id,
-                name: user.name,
-                email: user.email,
-                password: user.password,
-                role: user.role,
-                token: generateJWT(user._id, user.role)
-            })        
-        }
+        } 
+
+        return res.status(200).json({
+            success: true,
+            message: "Login successfull",
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            token: generateJWT(user._id, user.role)
+        });     
+        
         
     } catch (error) {
-        console.error("Error in login:", error);
-        return res.status(500).send("Internal server error");
+        console.error("Error in login:", error.message);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        })
     }
 };
 
@@ -100,18 +116,23 @@ export const displayMovies = async (req, res) => {
         const movieCount = await Movie.estimatedDocumentCount();
         if (movieCount <= 0) {
             return res.status(400).json({
+                success: false,
                 message: "DB is empty!"
             })
         }
         const movies = await Movie.find();
         return res.status(200).json({
+            success: true,
             message: "Movies displayed",
             movies
         })
         
     } catch (error) {
         console.error("Error in display movies:", error);
-        return res.status(500).send("Internal server error");
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        })
     }
 }
 
@@ -128,7 +149,7 @@ export const filter = async (req, res) => {
                 { description: { $regex: search, $options: "i" } }
             ]
         };
-        console.log("query:", query)
+        // console.log("query:", query)
 
         // Sort logic
         let sortOptions = {};
@@ -139,16 +160,25 @@ export const filter = async (req, res) => {
 
         const movies = await Movie.find(query).sort(sortOptions);
 
-        if (movies) {
-            return res.status(200).json({
-                message: "Filter success",
-                movies
+        if (!movies) {
+            return res.status(400).json({
+                success: false,
+                message: "Something error",
             })
         }
+
+        return res.status(200).json({
+            success: true,
+            message: "Filter success",
+            movies
+        })
         
     } catch (error) {
         console.error("Error in filter:", error);
-        return res.status(500).send("Internal server error");
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        })
     }
 };
 
