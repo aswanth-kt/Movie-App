@@ -1,6 +1,6 @@
 import express from "express";
 import "dotenv/config";
-import cores from "cors";
+import cors from "cors";
 
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -10,7 +10,12 @@ import adminRoutes from "./routes/adminRoutes.js";
 const app = express();
 const port = process.env.PORT
 
-app.use(cores());
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+}));
 
 // Connect to the DB
 connectDB();

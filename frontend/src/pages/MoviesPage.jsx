@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "../../api/axios";
 import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
 import SortSelect from "../components/SortSelect";
@@ -8,16 +9,22 @@ export default function MoviesPag() {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
-  console.log("env:", import.meta.env)
+
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/user/movies/filter?search=${search}&sortBy=${sort}`)
-      .then(res => res.json())
+    // fetch(`${import.meta.env.VITE_BASE_URL}/user/movies/filter?search=${search}&sortBy=${sort}`)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //       setMovies(data.movies)
+    //       console.log("movie data:", data.movies)
+    //     });
+
+    axios.get(`${import.meta.env.VITE_BASE_URL}/user/movies/filter?search=${search}&sortBy=${sort}`)
       .then(data => {
-          setMovies(data.movies)
-          console.log("movie data:", data.movies)
-        });
+        setMovies(data.data.movies)
+        // console.log("movieData:", data.data.movies)
+      })
+
     }, [search, sort]);
-    // console.log("sort:", sort)
 
   return (
     <div className="p-6 space-y-6">
