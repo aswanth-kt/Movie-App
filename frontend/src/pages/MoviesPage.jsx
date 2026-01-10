@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
 import SortSelect from "../components/SortSelect";
-import { baseUrl } from "../constants/url";
+// import { baseUrl } from "../constants/url";
 
 export default function MoviesPag() {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
-
+  console.log("env:", import.meta.env)
   useEffect(() => {
-    fetch(`${baseUrl}/user/movies/filter?search=${search}&sortBy=${sort}`)
+    fetch(`${import.meta.env.VITE_BASE_URL}/user/movies/filter?search=${search}&sortBy=${sort}`)
       .then(res => res.json())
       .then(data => {
           setMovies(data.movies)

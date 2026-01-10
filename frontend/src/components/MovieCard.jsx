@@ -1,10 +1,9 @@
-import { posterUrl } from "../constants/url";
 
 export default function MovieCard({ movie }) {
     return (
         <div className="bg-secondary rounded-xl overflow-hidden shadow hover:scale-[1.02] transition">
             <img 
-                src={`${posterUrl}/${movie.imageUrl}`}
+                src={`${import.meta.env.VITE_POST_URL}/${movie.imageUrl}`}
                 alt={movie.title}
                 className="h-56 w-full object-cover"
             />
