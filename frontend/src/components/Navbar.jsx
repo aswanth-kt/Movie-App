@@ -4,9 +4,12 @@ export default function Navbar() {
 
     return (
         <nav className="bg-secondary px-6 py-4 flex justify-between items-center shadow">
-            <h1 className="text-xl font-bold text-accent">
+            <Link 
+                to="/"
+                className="text-xl font-bold text-accent"
+            >
                 Movie App
-            </h1>
+            </Link>
 
             <div className="flex gap-6 text-sm">
                 <Link
