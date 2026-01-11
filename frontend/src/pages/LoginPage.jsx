@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -9,17 +10,24 @@ export default function LoginPage() {
 
     const navigate = useNavigate();
 
+    const { login } = useAuth();
+
     const handleLogin = async (e) => {
         e.preventDefault();
+        
         try {
             setLoading(true);
+
             const responce = await axios.post(
                 `${import.meta.env.VITE_BASE_URL}/user/login`,{
                     email,
                     password
                 }
             )
-            console.log("login responce:", responce.data)
+            console.log("login responce:", responce.data);
+
+            login(responce.data);   // Store user data to context
+
             setLoading(false);
             
             if (responce.status === 200 && responce.data.role === "admin") {

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
+    const { user, logout } = useAuth()
 
     return (
         <nav className="bg-secondary px-6 py-4 flex justify-between items-center shadow">
@@ -16,21 +18,29 @@ export default function Navbar() {
                     to="/movies"
                     className="text-muted hover:text-accent transition"
                 >
-                    Movies
+                    {
+                        user?.role === 'user' ? `Hi ${user.name}` : "Movies"
+                    }
                 </Link>
 
                 <Link
                     to="/admin-dashboard"
                     className="text-muted hover:text-accent transition"
                 >
-                    Admin Dashboard
+                    {
+                        user?.role === 'admin' ? "Dashboard" : ""
+                    }
                 </Link>
         
                 <Link
                     to="/login"
                     className="text-muted hover:text-accent transition"
                 >
-                    Login
+                    {
+                        user ?
+                        <span onClick={logout}> Logout </span>
+                        : <span>Login</span>
+                    }
                 </Link>
             </div>
         </nav>
