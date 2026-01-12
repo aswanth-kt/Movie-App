@@ -3,7 +3,6 @@ import axios from "../../api/axios";
 import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
 import SortSelect from "../components/SortSelect";
-// import { baseUrl } from "../constants/url";
 
 export default function MoviesPag() {
   const [movies, setMovies] = useState([]);
@@ -18,7 +17,7 @@ export default function MoviesPag() {
     //       console.log("movie data:", data.movies)
     //     });
 
-    axios.get(`${import.meta.env.VITE_BASE_URL}/user/movies/filter?search=${search}&sortBy=${sort}`)
+    axios.get(`/user/movies/filter?search=${search}&sortBy=${sort}`)
       .then(data => {
         setMovies(data.data.movies)
         // console.log("movieData:", data.data.movies)

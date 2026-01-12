@@ -42,10 +42,10 @@ export const register = async (req, res) => {
 
         return res.status(201).json({
             success: true,
+            message: "Account created",
             id: newUser._id,
             name: newUser.name,
             email: newUser.email,
-            password: newUser.password,
             role: newUser.role,
             token: generateJWT(newUser._id, newUser.role)
         })

@@ -1,7 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function AdminDashboard({movieCount = 0}) {
-    const { state } = useLocation();
 
     return (
         <div className="p-6 space-y-8">
@@ -32,7 +31,6 @@ export default function AdminDashboard({movieCount = 0}) {
                     ✏️ Edit Movies
                 </Link>
             </div>
-            <p>msg : {state?.message ? state.message : "No msg"} </p>
         </div>
     );
 }

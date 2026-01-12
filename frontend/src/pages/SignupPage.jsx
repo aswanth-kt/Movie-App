@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "../../api/axios";
 import { useAuth } from "../context/AuthContext";
 
@@ -14,6 +15,7 @@ export default function SingnupPage() {
 
     const handleSignup = async (e) => {
         e.preventDefault();
+
         try {
             setLoaing(true);
 
@@ -25,9 +27,11 @@ export default function SingnupPage() {
             setLoaing(false);
 
             if (responce.status === 201) {
+                toast.success(`${responce.data.message} ${responce.data.name}`)
                 login(responce.data)    // Store data to user context.
                 navigate("/movies")
             } else {
+                toast.warning(responce.data.message);
                 navigate("/login")
             }
 
@@ -80,7 +84,7 @@ export default function SingnupPage() {
                     disabled={loading}
                     className="bg-accent text-primary py-3 w-full rounded font-semibold hover:text-white hover:bg-primary transition"
                 >
-                    {loading ? "Signing..." : "Signup"}
+                    {loading ? "Creating account..." : "Sign up"}
                 </button>
             </form>
         </div>

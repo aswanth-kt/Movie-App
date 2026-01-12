@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -31,19 +32,21 @@ export default function LoginPage() {
             if (responce.status === 200) {
                 login(userData);    // Pass to AuthContext
             }
-            
+            console.log("Login responce:", responce)
             if (responce.status === 200 && responce.data.role === "admin") {
-                navigate("/admin-dashboard", {
-                    state: {message : responce.data.message}
-                });
+                toast.success("Welcome to the Admin Panel");
+                navigate("/admin-dashboard");
             } else if (responce.status === 200) {
+                toast.success(`Welcome back, ${responce.data.name}`);
                 login(responce.data); 
                 navigate("/movies");
              
             } else {
-                navigate("/login")
+                toast.warning(responce.data.message);
+                navigate("/login");
             }
         } catch (error) {
+            toast.error("Invalid credencials");
             console.error("Error in handle login:", error);
         } finally {
             setLoading(false)

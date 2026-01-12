@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "../../api/axios";
 
 export default function AddMovie() {
@@ -11,9 +12,6 @@ export default function AddMovie() {
     const [imageUrl, setImageUrl] = useState("");
 
     const navigate = useNavigate();
-
-    const location = useLocation();
-    const message = location.state?.message;
     
     const handleAddMovie = async (e) => {
         e.preventDefault();
@@ -25,15 +23,11 @@ export default function AddMovie() {
             console.log("Responce of add movie:", responce);
 
             if (responce.status === 201 && responce.data.success) {
-                navigate("/admin-dashboard", {
-                    state: {message: responce.data.message}
-                })
+                toast.success(responce.data.message);
+                navigate("/admin-dashboard")
             } else {
-                navigate("/admin/add-movie", {
-                    state: {message: responce.data.message}
-                })
+                toast.warning(responce.data.message);
             }
-            console.log("Responce msg: ", responce.data.message)
 
         } catch (error) {
             console.error("Error in Add movie:", error)
@@ -157,7 +151,6 @@ export default function AddMovie() {
                 Add Movie
                 </button>
             </form>
-            <p>msg: {message ? message : "no msg"} </p>
         </div>
     )
 }
