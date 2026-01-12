@@ -18,22 +18,28 @@ export default function LoginPage() {
         try {
             setLoading(true);
 
-            const responce = await axios.post(
-                `${import.meta.env.VITE_BASE_URL}/user/login`,{
-                    email,
-                    password
-                }
-            )
+            const responce = await axios.post("/user/login",{
+                email,
+                password
+            });
+
             console.log("login responce:", responce.data);
-            
+            const userData = responce.data;
+
             setLoading(false);
+
+            if (responce.status === 200) {
+                login(userData);    // Pass to AuthContext
+            }
             
             if (responce.status === 200 && responce.data.role === "admin") {
-                login(responce.data);   // Store user data to context
-                navigate("/admin-dashboard")
+                navigate("/admin-dashboard", {
+                    state: {message : responce.data.message}
+                });
             } else if (responce.status === 200) {
                 login(responce.data); 
-                navigate("/movies")
+                navigate("/movies");
+             
             } else {
                 navigate("/login")
             }

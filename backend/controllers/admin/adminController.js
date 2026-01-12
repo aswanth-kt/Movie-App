@@ -31,7 +31,7 @@ export const fetchAllMoviesAndSaveToDB = async (req, res) => {
                     tmdb_id: obj.id,
                     title: obj.title,
                     description: obj.overview,
-                    rating: obj.vote_count,
+                    rating: obj.vote_average,
                     releaseDate: obj.release_date,
                     imageUrl: obj.poster_path,
                 })
@@ -181,12 +181,12 @@ export const addMovie = async (req, res) => {
 
         return res.status(201).json({
             success: true,
-            message: "Movie successfully added",
+            message: "Movie added successfully",
             movie
         });
         
     } catch (error) {
-        console.error("Error delete movies:", error.message);
+        console.error("Error in Add movies:", error.message);
         return res.status(500).json({
             success: false,
             message: "Internal server error"

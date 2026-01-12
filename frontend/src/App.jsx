@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import HomePage from "./pages/HomePage";
 import SingnupPage from "./pages/SignupPage";
+import AddMovie from "./pages/AddMovie";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/register" element={<SingnupPage />} />
+        <Route path="/admin/add-movie" element={<AddMovie />} />
       </Routes>
     </div>
   )

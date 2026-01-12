@@ -7,12 +7,26 @@ const movieSchema = new Schema({
         unique: true,
         required: true
     },
-    title: String,
-    description: String,
-    rating: Number,
-    releaseDate: Date,
-    duration: Number,
-    imageUrl: String,
+    title: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    rating: {
+        type: Number,
+        required: true,
+    },
+    releaseDate: {
+        type: Date,
+        required: true,
+    },
+    imageUrl: {
+        type: String,
+        required: true,
+    },
 }, { timestamps: true });
 
 export default mongoose.model("Movie", movieSchema);
