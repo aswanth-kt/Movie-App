@@ -7,7 +7,7 @@ import generateJWT from "../../config/generateJWT.js";
 export const register = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
-        if (!name, !email, !password, !role) {
+        if (!name, !email, !password) {
             return res.status(400).json({
                 success: false,
                 message: "Please fill all the fields!" 

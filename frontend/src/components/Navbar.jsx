@@ -14,13 +14,19 @@ export default function Navbar() {
             </Link>
 
             <div className="flex gap-6 text-sm">
+                <span
+                    className="text-muted hover:text-accent transition"
+                >
+                    {
+                        user ? `Hi ${user.name}!` : "Hi, User!"
+                    }
+                </span>
+
                 <Link
                     to="/movies"
                     className="text-muted hover:text-accent transition"
                 >
-                    {
-                        user?.role === 'user' ? `Hi ${user.name}` : "Movies"
-                    }
+                    Movies
                 </Link>
 
                 <Link
@@ -38,7 +44,7 @@ export default function Navbar() {
                 >
                     {
                         user ?
-                        <span onClick={logout}> Logout </span>
+                        <span onClick={logout}>Logout</span>
                         : <span>Login</span>
                     }
                 </Link>

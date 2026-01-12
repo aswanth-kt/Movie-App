@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { useAuth } from "../context/AuthContext";
 
@@ -25,14 +25,14 @@ export default function LoginPage() {
                 }
             )
             console.log("login responce:", responce.data);
-
-            login(responce.data);   // Store user data to context
-
+            
             setLoading(false);
             
             if (responce.status === 200 && responce.data.role === "admin") {
+                login(responce.data);   // Store user data to context
                 navigate("/admin-dashboard")
             } else if (responce.status === 200) {
+                login(responce.data); 
                 navigate("/movies")
             } else {
                 navigate("/login")
@@ -46,7 +46,7 @@ export default function LoginPage() {
     
 
     return (
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center flex-col gap-5">
             <form
                 onSubmit={handleLogin}
                 className="bg-secondary p-8 rounded-xl w-96 space-y-4 shadow"
@@ -75,10 +75,20 @@ export default function LoginPage() {
                 <button 
                     type="submit"
                     disabled={loading}
-                    className="bg-accent text-primary py-3 w-full rounded font-semibold hover:text-white hover:bg-primary transition"
+                    className="bg-primary text-white py-3 w-full rounded font-semibold hover:text-secondary hover:bg-accent transition"
                 >
                     { loading ? "Logging in..." : "Login" }
                 </button>
+
+                <p className="py-3 text-center">
+                    Don't have an account? <span> </span>
+                    <Link 
+                        to="/register"
+                        className="font-bold"
+                    > 
+                        Register
+                    </Link>
+                </p>
             </form>
         </div>
     )

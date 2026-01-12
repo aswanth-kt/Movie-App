@@ -4,6 +4,7 @@ import MoviesPage from "./pages/MoviesPage"
 import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import HomePage from "./pages/HomePage";
+import SingnupPage from "./pages/SignupPage";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/movies" element={<MoviesPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/register" element={<SingnupPage />} />
       </Routes>
     </div>
   )
