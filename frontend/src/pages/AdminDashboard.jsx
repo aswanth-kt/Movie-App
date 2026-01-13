@@ -23,12 +23,12 @@ export default function AdminDashboard({movieCount = 0}) {
                 </Link>
 
                 <Link
-                    to="/admin/movies"
+                    to="/admin/manage-movies"
                     className="flex-1 text-center border border-accent
                     text-accent py-4 rounded-xl font-semibold
                     hover:bg-accent hover:text-primary transition"
                 >
-                    ✏️ Edit Movies
+                    ✏️ Manage Movies
                 </Link>
             </div>
         </div>

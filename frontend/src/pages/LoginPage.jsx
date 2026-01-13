@@ -33,11 +33,15 @@ export default function LoginPage() {
             if (responce.status === 200 && userData) {
                 login(userData, userData.token);    // Pass to AuthContext
             }
-            console.log("Login responce:", responce)
+            // console.log("Login responce:", responce)
+
             if (responce.status === 200 && responce.data.role === "admin") {
+                
                 toast.success("Welcome to the Admin Panel");
                 navigate("/admin/dashboard");
+
             } else if (responce.status === 200) {
+
                 toast.success(`Welcome back, ${responce.data.name}`);
                 login(responce.data); 
                 navigate("/movies");
@@ -47,8 +51,10 @@ export default function LoginPage() {
                 navigate("/login");
             }
         } catch (error) {
+
             toast.error("Invalid credencials");
             console.error("Error in handle login:", error);
+            
         } finally {
             setLoading(false)
         }

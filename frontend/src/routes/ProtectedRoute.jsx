@@ -5,7 +5,7 @@ export default function ProtectedRoute({ children }) {
     const { user, loading } = useAuth();
 
     if (loading) {
-        return <div>Loading...</div>
+        return null;
     }
 
     // If not login redirect login page.

@@ -123,7 +123,7 @@ export const displayMovies = async (req, res) => {
         const movies = await Movie.find();
         return res.status(200).json({
             success: true,
-            message: "Movies displayed",
+            message: "successfully fetched your movies!",
             movies
         })
         

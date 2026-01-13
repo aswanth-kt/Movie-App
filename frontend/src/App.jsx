@@ -8,6 +8,7 @@ import SingnupPage from "./pages/SignupPage";
 import AddMovie from "./pages/AddMovie";
 import RoleRoute from "./routes/RoleRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import ManageMovies from "./pages/ManageMovies";
 
 
 function App() {
@@ -50,6 +51,15 @@ function App() {
               <AddMovie />
             </RoleRoute>
           } 
+        />
+
+        <Route 
+          path="/admin/manage-movies"
+          element= {
+            <RoleRoute allowedRoles={["admin"]} >
+              <ManageMovies />
+            </RoleRoute>
+          }
         />
 
       </Routes>
