@@ -30,7 +30,7 @@ export default function Navbar() {
                 </Link>
 
                 <Link
-                    to="/admin-dashboard"
+                    to="/admin/dashboard"
                     className="text-muted hover:text-accent transition"
                 >
                     {

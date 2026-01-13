@@ -16,9 +16,9 @@ export function AuthProvider({ children }) {
         setLoading(false);
     }, []);
 
-    const login = (userData) => {
+    const login = (userData, token) => {
         localStorage.setItem("user", JSON.stringify(userData));
-        // localStorage.setItem("jwt_token", token);
+        localStorage.setItem("jwt_token", token);
         setUser(userData);
     };
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -9,25 +10,26 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-        const user = JSON.parse(storedUser);
-        config.headers.Authorization = `Bearer ${user.token}`;
-        // console.log("Interceptor token:", user.token);
-    }
 
-    // console.log("axios config:", config)
+    const token = localStorage.getItem("jwt_token");
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
 
     return config;
 }, (error) => Promise.reject(error));
 
 
 instance.interceptors.response.use(
+
     (responce) => responce,
+
     (error) => {
         const status = error.response?.status;
 
         if (status === 401) {
+            toast.warning("Access denied!")
             localStorage.removeItem("jwt_token");
             localStorage.removeItem("user");
             window.location.href = "/login";

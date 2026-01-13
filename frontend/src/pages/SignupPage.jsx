@@ -36,6 +36,7 @@ export default function SingnupPage() {
             }
 
         } catch (error) {
+            toast.error(error.message);
             console.error("Error in handle signup:", error)
         } finally {
             setLoaing(false)

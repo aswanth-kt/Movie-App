@@ -25,17 +25,18 @@ export default function LoginPage() {
             });
 
             console.log("login responce:", responce.data);
+            // console.log("login token:", responce.data.token);
             const userData = responce.data;
 
             setLoading(false);
 
-            if (responce.status === 200) {
-                login(userData);    // Pass to AuthContext
+            if (responce.status === 200 && userData) {
+                login(userData, userData.token);    // Pass to AuthContext
             }
             console.log("Login responce:", responce)
             if (responce.status === 200 && responce.data.role === "admin") {
                 toast.success("Welcome to the Admin Panel");
-                navigate("/admin-dashboard");
+                navigate("/admin/dashboard");
             } else if (responce.status === 200) {
                 toast.success(`Welcome back, ${responce.data.name}`);
                 login(responce.data); 

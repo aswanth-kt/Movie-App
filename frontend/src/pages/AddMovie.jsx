@@ -24,12 +24,15 @@ export default function AddMovie() {
 
             if (responce.status === 201 && responce.data.success) {
                 toast.success(responce.data.message);
-                navigate("/admin-dashboard")
-            } else {
+                navigate("/admin/dashboard")
+            } 
+
+            if(responce.status === 400) {
                 toast.warning(responce.data.message);
             }
 
         } catch (error) {
+            toast.error("Internal server error");
             console.error("Error in Add movie:", error)
         }
     }
