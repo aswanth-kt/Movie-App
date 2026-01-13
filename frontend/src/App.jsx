@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import SingnupPage from "./pages/SignupPage";
 import AddMovie from "./pages/AddMovie";
 import RoleRoute from "./routes/RoleRoute";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 
 function App() {
@@ -20,7 +21,14 @@ function App() {
 
         <Route path="/" element={<HomePage />} />
 
-        <Route path="/movies" element={<MoviesPage />} />
+        <Route 
+          path="/movies" 
+          element={
+            <ProtectedRoute>
+              <MoviesPage />
+            </ProtectedRoute>
+          } 
+        />
 
         <Route path="/login" element={<LoginPage />} />
 

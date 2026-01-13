@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "../../api/axios";
 import { useAuth } from "../context/AuthContext";
-import { toast } from "react-toastify";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
