@@ -8,7 +8,6 @@ import SearchBar from "../components/SearchBar";
 export default function ManageMovies() {
     const [movies, setMovies] = useState([]);
     const [search, setSearch] = useState("");
-
     useEffect(() => {
 
         const fetchMovies = async () => {
@@ -50,6 +49,7 @@ export default function ManageMovies() {
                         movie={movie} 
                         allMovies={movies} 
                         setMovies={setMovies} 
+                        isEmpty={movies.length}
                     />
                 )
             }

@@ -6,7 +6,7 @@ import withReactContent from "sweetalert2-react-content";
 
 const mySwal = withReactContent(Swal);
 
-export default function AdminMovieList({ movie, allMovies, setMovies }) {
+export default function AdminMovieList({ movie, allMovies, setMovies, isEmpty }) {
 
     const handleDeleteMovie = async (id) => {
 
@@ -76,7 +76,7 @@ export default function AdminMovieList({ movie, allMovies, setMovies }) {
                </button>
 
                {
-                allMovies.length === 0 && (
+                isEmpty === 0 && (
                     <p className="text-muted text-center pt-10">
                         No movies fount.
                     </p>

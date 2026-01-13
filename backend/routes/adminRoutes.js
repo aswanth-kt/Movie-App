@@ -4,7 +4,7 @@ import authenticateToken from "../middleware/auth.js";
 import isAdmin from "../middleware/adminMiddleware.js.js";
 const router = express.Router();
 
-router.get("/fetchMovies", authenticateToken, isAdmin, fetchAllMoviesAndSaveToDB);
+router.post("/fetchMovies", authenticateToken, isAdmin, fetchAllMoviesAndSaveToDB);
 
 router.put("/movies/:id", authenticateToken, isAdmin, editMovies);
 

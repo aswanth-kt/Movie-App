@@ -24,7 +24,7 @@ export default function LoginPage() {
                 password
             });
 
-            console.log("login responce:", responce.data);
+            // console.log("login responce:", responce.data);
             // console.log("login token:", responce.data.token);
             const userData = responce.data;
 

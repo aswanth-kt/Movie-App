@@ -7,16 +7,26 @@ import { tmdbBaseURL } from "../../constants/constants.js";
 
 export const fetchAllMoviesAndSaveToDB = async (req, res) => {
     try {
-        const moviesCount = await Movie.estimatedDocumentCount();
-        if (moviesCount > 0) {
-            return res.status(400).json({
-                success: false,
-                message: `${moviesCount} movies are already in DB.`
-            })
-        };
+        // const moviesCount = await Movie.estimatedDocumentCount();
+        // if (moviesCount > 0) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: `${moviesCount} movies are already in DB.`
+        //     })
+        // };
         // console.log("moviesCount:", moviesCount);
 
-        const responce = await axios.get(`${tmdbBaseURL}/trending/movie/day?language=en-US`);
+        const { tmdb_url } = req.body;
+
+        if (!tmdb_url) {
+            return res.status(400).json({
+                success: false,
+                message: "TMDB URL is missing!"
+            })
+        };
+
+        // const responce = await axios.get(`${tmdbBaseURL}/trending/movie/day?language=en-US`);
+        const responce = await axios.get(`${tmdbBaseURL}/${tmdb_url}`);
         const moviesResult = responce.data
         // console.log("Movies result:", moviesResult)
         
@@ -25,18 +35,23 @@ export const fetchAllMoviesAndSaveToDB = async (req, res) => {
                 success: false,
                 message: "Cant fetch movies result from TMDB",
             })
-        } else {
-            moviesResult.results.map((obj) => {
-                Movie.create({ 
-                    tmdb_id: obj.id,
-                    title: obj.title,
-                    description: obj.overview,
-                    rating: obj.vote_average,
-                    releaseDate: obj.release_date,
-                    imageUrl: obj.poster_path,
-                })
+        };
+        console.log("movies res: ",moviesResult)
+        
+        moviesResult.results.map((obj) => {
+
+        })
+
+        moviesResult.results.map((obj) => {
+            Movie.create({ 
+                tmdb_id: obj.id,
+                title: obj.title,
+                description: obj.overview,
+                rating: obj.vote_average,
+                releaseDate: obj.release_date,
+                imageUrl: obj.poster_path,
             })
-        }
+        })
 
         return res.status(200).json({
             success: true,
@@ -45,6 +60,12 @@ export const fetchAllMoviesAndSaveToDB = async (req, res) => {
         
     } catch (error) {
         console.error("Error delete movies:", error.message);
+        if (error.code === 11000) {
+            return res.status(409).json({
+                success: false,
+                message: "Movie already exists"
+            });
+        }
         return res.status(500).json({
             success: false,
             message: "Internal server error"

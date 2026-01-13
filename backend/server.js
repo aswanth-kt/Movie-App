@@ -32,5 +32,5 @@ app.use("/admin", adminRoutes)
 
 app.listen(port, (err) => {
     if (err) console.error("Server error:", err)
-    else console.log(`localhost: http://localhost:${port}/user`)
+    else console.log(`localhost: http://localhost:${port}`)
 })
