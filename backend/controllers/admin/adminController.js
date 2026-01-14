@@ -215,4 +215,59 @@ export const addMovie = async (req, res) => {
             message: "Internal server error"
         });
     }
+};
+
+
+export const totalMovieCount = async (req, res) => {
+    try {
+        const moviesCount = await Movie.countDocuments();
+
+        if (moviesCount < 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Sorry, no movies"
+            })
+        };
+
+        return res.status(200).json({
+            success: true,
+            message: "Success",
+            moviesCount
+        })
+        
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
+
+export const deleteCollection = async (req, res) => {
+    try {
+        const deleteMovies = await Movie.deleteMany({});
+
+        if (!deleteMovies) {
+            return res.status(400).json({
+                success: false,
+                message: "Failed to delete movies!"
+            });
+        };
+
+        return res.status(200).json({
+            success: true,
+            message: "All movies deleted successfully",
+            deleteMovies,
+        });
+        
+    } catch (error) {
+        console.error(error.message)
+        console.error("Error in Add movies:", error.message);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
 }
