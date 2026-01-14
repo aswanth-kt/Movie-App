@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 import User from "../../models/userSchema.js"
 import Movie from "../../models/movieSchema.js";
@@ -11,6 +12,14 @@ export const register = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: "Please fill all the fields!" 
+            })
+        }
+
+        const passPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+        if (!passPattern.test(password)) {
+            return res.status(400).json({
+                success: false,
+                message: "Min. 6 chars with uppercase, lowercase, number & special character"
             })
         }
 
@@ -51,7 +60,7 @@ export const register = async (req, res) => {
         })
 
     } catch (error) {
-        console.log("Error in register:", error.message);
+        console.error("Error in register:", error.message);
         return res.status(500).json({
             success: false,
             message: "Internal server error"
@@ -111,6 +120,7 @@ export const login = async (req, res) => {
 };
 
 
+// Fetch all movies.
 export const displayMovies = async (req, res) => {
     try {
         const movieCount = await Movie.estimatedDocumentCount();
@@ -156,7 +166,7 @@ export const filter = async (req, res) => {
         if (sortBy === "rating") sortOptions.rating = -1;   // desenting order
         if (sortBy === "title") sortOptions.title = 1;  // A to Z
         if (sortBy === "releaseDate") sortOptions.releaseDate = -1;
-        console.log("sortOptions:", sortOptions)
+        // console.log("sortOptions:", sortOptions)
 
         const movies = await Movie.find(query).sort(sortOptions);
 
@@ -183,3 +193,39 @@ export const filter = async (req, res) => {
 };
 
 
+
+// Fetch one movie details
+export const fetchMovie = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid movie ID!"
+            })
+        };
+
+        const movie = await Movie.findById(id);
+
+        if (!movie) {
+            return res.status(404).json({
+                success: false,
+                message: "Movie not found!"
+            })
+        };
+
+        return res.status(200).json({
+            success: true,
+            message: "Movie fetched.",
+            movie
+        })
+        
+    } catch (error) {
+        console.error("Error in fetch movie:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+}

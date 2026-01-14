@@ -14,7 +14,7 @@ export default function RoleRoute({ children, allowedRoles }) {
     };
 
     if (!allowedRoles.includes(user.role)) {
-        return <Navigate to="/" />
+        return <Navigate to="/" replace/>
     };
 
     // Permission granted

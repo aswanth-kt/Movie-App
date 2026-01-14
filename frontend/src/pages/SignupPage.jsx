@@ -22,7 +22,7 @@ export default function SingnupPage() {
             const responce = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`, {
                 name, email, password
             });
-            console.log("Signup responce:", responce);
+            // console.log("Signup responce:", responce);
 
             setLoaing(false);
 
@@ -36,7 +36,7 @@ export default function SingnupPage() {
             }
 
         } catch (error) {
-            toast.error(error.message);
+            toast.error(error.response?.data?.message || "Server error!");
             console.error("Error in handle signup:", error)
         } finally {
             setLoaing(false)

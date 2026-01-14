@@ -9,6 +9,7 @@ import AddMovie from "./pages/AddMovie";
 import RoleRoute from "./routes/RoleRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import ManageMovies from "./pages/ManageMovies";
+import EditMovie from "./pages/EditMovie";
 
 
 function App() {
@@ -58,6 +59,15 @@ function App() {
           element= {
             <RoleRoute allowedRoles={["admin"]} >
               <ManageMovies />
+            </RoleRoute>
+          }
+        />
+
+        <Route 
+          path="/admin/edit-movie/:id"
+          element={
+            <RoleRoute allowedRoles={["admin"]}>
+              <EditMovie />
             </RoleRoute>
           }
         />

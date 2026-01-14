@@ -1,6 +1,7 @@
 import express from "express";
 import "dotenv/config";
 import cors from "cors";
+import helmet from "helmet";
 
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -10,10 +11,12 @@ import adminRoutes from "./routes/adminRoutes.js";
 const app = express();
 const port = process.env.PORT
 
+app.use(helmet());
+
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
-    methods: ["GET", "POST", "OPTIONS", "DELETE"],
+    methods: ["GET", "POST", "OPTIONS", "DELETE", "PUT"],
     allowedHeaders: ["Content-Type", "Authorization", "Accept"],
 }));
 

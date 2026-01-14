@@ -18,6 +18,7 @@ export default function AdminDashboard({movieCount = 0}) {
             }
             
         } catch (error) {
+            toast.error(error.response?.data?.message || "Server error!");
             console.error(error.message)
         }
     }

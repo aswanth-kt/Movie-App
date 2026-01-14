@@ -36,7 +36,7 @@ export const fetchAllMoviesAndSaveToDB = async (req, res) => {
                 message: "Cant fetch movies result from TMDB",
             })
         };
-        console.log("movies res: ",moviesResult)
+        // console.log("movies res: ",moviesResult)
         
         moviesResult.results.map((obj) => {
 
@@ -72,7 +72,7 @@ export const fetchAllMoviesAndSaveToDB = async (req, res) => {
         });
     }
 };
-
+ 
 
 export const editMovies = async (req, res) => {
     try {
@@ -100,6 +100,7 @@ export const editMovies = async (req, res) => {
         // Check the updates fields is empty.
         if (Object.keys(updates).length === 0) {
             return res.status(400).json({
+                success: false,
                 message: "No valid fields to update."
             })
         }
@@ -111,6 +112,7 @@ export const editMovies = async (req, res) => {
         )
 
         res.status(200).json({
+            success: true,
             message: "Update successfull",
             movie
         })

@@ -20,7 +20,7 @@ export default function AddMovie() {
             const responce = await axios.post("/admin/movies",{
                 tmdb_id, title, description, rating, releaseDate, imageUrl
             });
-            console.log("Responce of add movie:", responce);
+            // console.log("Responce of add movie:", responce);
 
             if (responce.status === 201 && responce.data.success) {
                 toast.success(responce.data.message);
@@ -32,7 +32,7 @@ export default function AddMovie() {
             }
 
         } catch (error) {
-            toast.error("Internal server error");
+            toast.error(error.response?.data?.message || "Server error!");
             console.error("Error in Add movie:", error)
         }
     }

@@ -26,7 +26,7 @@ export default function ManageMovies() {
                 };
 
             } catch (error) {
-                toast.error("Server error");
+                toast.error(error.response?.data?.message || "Server error!");
                 console.error(error.message);
             }
         };

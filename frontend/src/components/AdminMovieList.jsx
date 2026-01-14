@@ -27,7 +27,7 @@ export default function AdminMovieList({ movie, allMovies, setMovies, isEmpty })
         try {
 
             const responce = await axios.delete(`/admin/movies/${id}`);
-            console.log("Delete res:", responce.data);
+            // console.log("Delete res:", responce.data);
 
             if(responce.status === 200 && responce.data.success) {
                 toast.success(responce.data.message);
@@ -60,7 +60,7 @@ export default function AdminMovieList({ movie, allMovies, setMovies, isEmpty })
 
                 <div className="flex gap-3">
                     <Link 
-                        to={`/admin/movie/${movie._id}`}
+                        to={`/admin/edit-movie/${movie._id}`}
                         className="px-4 py-2 rounded-lg border border-accent text-accent
                         hover:bg-accent hover:text-primary transition"
                     >
