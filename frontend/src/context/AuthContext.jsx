@@ -1,4 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+
+const mySwal = withReactContent(Swal);
 
 const AuthContext = createContext(null);
 
@@ -22,10 +28,24 @@ export function AuthProvider({ children }) {
         setUser(userData);
     };
 
-    const logout = () => {
+    const logout = async () => {
+        const logoutConfirm = await mySwal.fire({
+            title: "Log out now?",
+            text: "Your current session will end.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'Yes, log out',
+            cancelButtonText: 'Cancel'
+        });
+
+        if (!logoutConfirm.isConfirmed) {
+            return toast.warning("Logout failed. Please try again");
+        }
+
         localStorage.removeItem("user");
         localStorage.removeItem("jwt_token");
         setUser(null);
+        toast.success("Logged out successfully");
     };
 
     return (

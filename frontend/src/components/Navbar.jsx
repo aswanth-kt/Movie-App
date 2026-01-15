@@ -38,8 +38,7 @@ export default function Navbar() {
                     }
                 </Link>
         
-                <Link
-                    to="/login"
+                <button
                     className="text-muted hover:text-accent transition"
                 >
                     {
@@ -47,7 +46,7 @@ export default function Navbar() {
                         <span onClick={logout}>Logout</span>
                         : <span>Login</span>
                     }
-                </Link>
+                </button>
             </div>
         </nav>
     )

@@ -2,6 +2,11 @@ import { Link } from "react-router-dom";
 import axios from "../../api/axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+
+const mySwal = withReactContent(Swal);
 
 export default function AdminDashboard() {
     const [tmdb_url, setTmdb_url] = useState("");
@@ -31,7 +36,20 @@ export default function AdminDashboard() {
         }
     };
 
-    const handleDropDB = () => {
+    const handleDropDB = async () => {
+        const deleteConfirm = await mySwal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'Cancel'
+        });
+
+        if (!deleteConfirm.isConfirmed) {
+            return toast.warning("The movie was not deleted")
+        };
+
         axios.delete("/admin/delete-movies")
         .then((res) => {
             if (res.status === 200 && res.data.success) {
