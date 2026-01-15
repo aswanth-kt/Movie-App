@@ -68,7 +68,7 @@ export default function AdminDashboard() {
                         <button
                             onClick={handleFetchMovie_TMDB}
                             type="button"
-                            className="md:w-64 bg-danger text-white px-6 py-3
+                            className="md:w-64 bg-success text-white px-6 py-3
                             rounded-xl font-semibold
                             hover:opacity-90 transition"
                         >
