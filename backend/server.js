@@ -20,6 +20,9 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization", "Accept"],
 }));
 
+// handle preflight
+app.options("/", cors());
+
 // Connect to the DB
 connectDB();
 
