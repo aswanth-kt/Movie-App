@@ -1,4 +1,3 @@
-import Pagination from "./Pagination";
 
 export default function MovieCard({ movie }) {
     return (

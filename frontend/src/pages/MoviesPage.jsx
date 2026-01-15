@@ -14,8 +14,13 @@ export default function MoviesPag() {
 
   useEffect(() => {
 
-    axios.get(`/user/movies/filter?search=${search}&sortBy=${sort}&page=${currentPage}`)
-      .then(data => {
+    axios.get("/user/movies/filter", {
+      params: {
+        search: search,
+        sortBy: sort,
+        page: currentPage
+      }
+    }).then(data => {
         setMovies(data.data.movies);
         
         setTotalPage(data.data.totalPage);

@@ -3,21 +3,25 @@ import { toast } from "react-toastify";
 import AdminMovieList from "../components/AdminMovieList";
 import axios from "../../api/axios";
 import SearchBar from "../components/SearchBar";
+import Pagination from "../components/Pagination";
 
 
 export default function ManageMovies() {
     const [movies, setMovies] = useState([]);
     const [search, setSearch] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+
     useEffect(() => {
 
         const fetchMovies = async () => {
             try {
-
-                const response = await axios.get(`/user/movies/filter?search=${search}`);
-                // console.log("Manage movie res: ", response.data);
+                const response = await axios.get(`/user/movies/filter?search=${search}&page=${currentPage}`);
+                console.log("Manage movie res: ", response.data);
 
                 if (response.status === 200 && response.data.success) {
                     setMovies(response.data.movies);
+                    setTotalPage(response.data.totalPage);
 
                     // Avoid filter message
                     if (!response.data.message === "Filter success") {
@@ -33,7 +37,7 @@ export default function ManageMovies() {
 
         fetchMovies();
 
-    }, [search]);
+    }, [search, currentPage]);
 
     return (
         <div className="p-6 max-w-6xl mx-auto space-y-6">
@@ -53,6 +57,12 @@ export default function ManageMovies() {
                     />
                 )
             }
+
+            <Pagination 
+                currentPage={currentPage}
+                totalPage={totalPage}
+                setCurrentPage={setCurrentPage}
+            />
 
         </div>
     )
