@@ -229,7 +229,7 @@ POST /user/login
 
 #### Get all movies (with search & sort)
 ```http
-GET /user//movies/filter?search=batman&sort=rating&page=currentPage
+GET /user/movies/filter?search=batman&sort=rating&page=currentPage
 ```
 
 **Query Params:**
