@@ -62,18 +62,81 @@ The app supports **Admin and User roles**, allowing admins to manage movies and 
 ```
 Movie-App/
 │
-├── frontend/                 # React frontend (Vite)
-│   ├── src/
-│   ├── public/
-│   └── package.json
-│
-├── backend/                  # Node + Express backend
-│   ├── routes/
-│   ├── models/
+├── backend/
+│   ├── config/
+│   │   ├── axios.js
+│   │   ├── db.js
+│   │   └── generateJWT.js
+│   ├── constants/
+│   │   └── constants.js
 │   ├── controllers/
-│   └── index.js
+│   │   ├── admin/
+│   │   │   └── adminController.js
+│   │   └── user/
+│   │       └── userController.js
+│   ├── middleware/
+│   │   ├── adminMiddleware.js.js
+│   │   └── auth.js
+│   ├── models/
+│   │   ├── movieSchema.js
+│   │   └── userSchema.js
+│   ├── routes/
+│   │   ├── adminRoutes.js
+│   │   └── userRoutes.js
+│   ├── .gitignore
+│   ├── package-lock.json
+│   ├── package.json
+│   └── server.js
+│
+├── frontend/
+│   ├── api/
+│   │   └── axios.js
+│   ├── public/
+│   │   ├── movieIcon.webp
+│   │   └── vite.svg
+│   ├── src/
+│   │   ├── assets/
+│   │   │   ├── Banner/
+│   │   │   │   ├── banner.png
+│   │   │   │   └── banner1.webp
+│   │   │   └── react.svg
+│   │   ├── components/
+│   │   │   ├── AdminMovieList.jsx
+│   │   │   ├── MovieCard.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Pagination.jsx
+│   │   │   ├── SearchBar.jsx
+│   │   │   └── SortSelect.jsx
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx
+│   │   ├── pages/
+│   │   │   ├── AddMovie.jsx
+│   │   │   ├── AdminDashboard.jsx
+│   │   │   ├── EditMovie.jsx
+│   │   │   ├── HomePage.jsx
+│   │   │   ├── LoginPage.jsx
+│   │   │   ├── ManageMovies.jsx
+│   │   │   ├── MoviesPage.jsx
+│   │   │   └── SignupPage.jsx
+│   │   ├── routes/
+│   │   │   ├── ProtectedRoute.jsx
+│   │   │   └── RoleRoute.jsx
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── README.md
+│   ├── tailwind.config.js
+│   ├── vercel.json
+│   └── vite.config.js
 │
 └── README.md
+
 ```
 
 ---
