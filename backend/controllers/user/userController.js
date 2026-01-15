@@ -149,7 +149,7 @@ export const displayMovies = async (req, res) => {
 
 export const filter = async (req, res) => {
     try {
-        const {search, sortBy} = req.query;
+        const { search, sortBy } = req.query;
 
         // Search query
         let query = {};
@@ -166,9 +166,22 @@ export const filter = async (req, res) => {
         if (sortBy === "rating") sortOptions.rating = -1;   // desenting order
         if (sortBy === "title") sortOptions.title = 1;  // A to Z
         if (sortBy === "releaseDate") sortOptions.releaseDate = -1;
-        // console.log("sortOptions:", sortOptions)
+        // console.log("sortOptions:", sortOptions);
 
-        const movies = await Movie.find(query).sort(sortOptions);
+        // Pagination
+        const page = req.query.page || 1;
+        if (page < 1) page = 1;
+
+        const limit = 8;
+        const skip = (page - 1) * limit;
+
+        const movieCount = await Movie.countDocuments(query);
+        // console.log("movie count: ", movieCount)
+
+        const movies = await Movie.find(query).sort(sortOptions)
+        .skip(skip)
+        .limit(limit)
+        .sort({ createdAt: -1 });
 
         if (!movies) {
             return res.status(400).json({
@@ -177,10 +190,15 @@ export const filter = async (req, res) => {
             })
         }
 
+        // console.log("Current Page:", page, "Limit:", limit, "TotalPage:", Math.ceil(movieCount/limit));
+
         return res.status(200).json({
             success: true,
             message: "Filter success",
-            movies
+            movies,
+            currentPage: page,
+            totalPage: Math.ceil(movieCount / limit),
+            movieCount
         })
         
     } catch (error) {

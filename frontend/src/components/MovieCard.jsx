@@ -1,3 +1,4 @@
+import Pagination from "./Pagination";
 
 export default function MovieCard({ movie }) {
     return (
@@ -25,6 +26,5 @@ export default function MovieCard({ movie }) {
                 </div>
             </div>
         </div>
-
     )
 }
