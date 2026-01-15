@@ -52,7 +52,7 @@ export default function LoginPage() {
             }
         } catch (error) {
 
-            toast.error(error.response?.data?.message || "Invalid credencials");
+            toast.error(error.response?.data?.message || "Invalid credentials");
             console.error("Error in handle login:", error);
             
         } finally {
