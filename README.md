@@ -288,7 +288,7 @@ POST /admin/fetchMovies
 ## 👨‍💻 Author
 
 **Your Name**  
-GitHub: [Aswanth KT](https://github.com/your-username)
+GitHub: [Aswanth KT](https://github.com/aswanth-kt)
 
 ---
 
