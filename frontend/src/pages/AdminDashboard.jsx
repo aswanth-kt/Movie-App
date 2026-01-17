@@ -31,7 +31,7 @@ export default function AdminDashboard() {
             }
             
         } catch (error) {
-            toast.error(error.response?.data?.message || "Server error!");
+            toast.error(error.response?.data?.message ||error?.message|| "Server error!");
             console.error(error.message)
         }
     };

@@ -41,7 +41,7 @@ export default function AdminMovieList({ movie, allMovies, setMovies, isEmpty })
             toast.error(error.response?.data?.message || "Delete failed")
             console.error(error.message);
         }
-    }
+    };
 
     return (
 

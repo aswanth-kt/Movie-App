@@ -8,14 +8,15 @@ import Pagination from "../components/Pagination";
 
 export default function ManageMovies() {
     const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
 
     useEffect(() => {
-
         const fetchMovies = async () => {
             try {
+                setLoading(true);
                 const response = await axios.get(`/user/movies/filter?search=${search}&page=${currentPage}`);
                 console.log("Manage movie res: ", response.data);
 
@@ -28,10 +29,13 @@ export default function ManageMovies() {
                         toast.success(response.data.message);
                     };
                 };
+                setLoading(false)
 
             } catch (error) {
                 toast.error(error.response?.data?.message || "Server error!");
                 console.error(error.message);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -48,9 +52,12 @@ export default function ManageMovies() {
             <SearchBar search={search} setSearch={setSearch} />
             
             {
-                movies.map((movie) => 
+                loading 
+                ? <h1 className="text-center font-fold text-4xl text-accent">Loading...</h1>
+                : movies.map((movie) =>
                     <AdminMovieList key={movie._id} 
                         movie={movie} 
+                        loading={loading}
                         allMovies={movies} 
                         setMovies={setMovies} 
                         isEmpty={movies.length}
