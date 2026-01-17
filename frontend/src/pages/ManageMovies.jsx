@@ -65,11 +65,11 @@ export default function ManageMovies() {
                 )
             }
 
-            <Pagination 
+            {!loading && <Pagination 
                 currentPage={currentPage}
                 totalPage={totalPage}
                 setCurrentPage={setCurrentPage}
-            />
+            />}
 
         </div>
     )
